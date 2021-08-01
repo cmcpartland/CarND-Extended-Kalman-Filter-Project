@@ -121,15 +121,15 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   
     //Modify the F matrix so that the time is integrated
     ekf_.F_ << 1, 0, dt, 0,
-			   0, 1, 0, dt,
-			   0, 0, 1, 0,
-			   0, 0, 0, 1;
+	       0, 1, 0, dt,
+	       0, 0, 1, 0,
+	       0, 0, 0, 1;
 			 
-    // define and set measurement noise
+    // define and set process noise for accelerations in x and y
     float noise_ax = 9.;
     float noise_ay = 9.;
   
-    // define measurement covariance
+    // define process noise uncertainty (discrete time model)
     ekf_.Q_ = MatrixXd(4,4);
     ekf_.Q_ <<  dt_4o4*noise_ax, 0, dt_3o2*noise_ax, 0,
 			    0, dt_4*noise_ay, 0, dt_3o2*noise_ay,
