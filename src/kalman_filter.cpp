@@ -42,7 +42,8 @@ void KalmanFilter::Update(const VectorXd &z) {
   */
 	
   VectorXd z_pred = H_ * x_; // Apply the observation matrix to the current state
-  VectorXd y = z - z_pred; // Difference between the measurement (z) and the predicted measurement we'd expect given the current state
+  // Difference between the measurement (z) and the current state in measurement space
+  VectorXd y = z - z_pred; 
   Estimate(y);
 }
 
