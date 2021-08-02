@@ -47,13 +47,12 @@ void KalmanFilter::Update(const VectorXd &z) {
 }
 
 void KalmanFilter::UpdateEKF(const VectorXd &z) {
-  // update the state by using Extended Kalman Filter equations
   float px = x_(0);
   float py = x_(1);
   float vx = x_(2);
   float vy = x_(3);
   
-  // cylindrical coordinates
+  // transform current estimate for state to polar coordinates
   float rho = sqrt(px*px + py*py);
   float theta = atan2(py,px);
   float rho_dot = (px*vx + py*vy)/rho;
@@ -61,6 +60,8 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   VectorXd h = VectorXd(3);
   h << rho, theta, rho_dot;
   
+  // the difference between the measurement (in measurement space) 
+  // and the current estimate for the state (also in measurement space)
   VectorXd y = z-h;
 
   //Normalize the phi value to be between -pi and pi
